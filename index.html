@@ -560,16 +560,19 @@ function refreshTk(){
    QUESTION GENERATION (sequential)
 ══════════════════════════ */
 function genQs(total){
-  const qs=Array.from({length:total-1},(_,i)=>({total,preFilled:i+1,toPlace:total-i-1}));
-  for(let i=qs.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[qs[i],qs[j]]=[qs[j],qs[i]];}
-  return qs;
+  return Array.from({length:total-1},(_,i)=>({total,preFilled:i+1,toPlace:total-i-1}));
+}
+function shuffleQs(qs){
+  const a=qs.slice();
+  for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}
+  return a;
 }
 
 /* ══════════════════════════
    MODE STARTERS
 ══════════════════════════ */
 function startJunban(){let n=2;while(n<=10&&S.cleared[n])n++;if(n>10)n=2;LS.mode='junban';LS.num=n;LS.qs=genQs(n);LS.qIdx=0;beginLearn()}
-function startTokkun(n){LS.mode='tokkun';LS.num=n;LS.qs=genQs(n);LS.qIdx=0;beginLearn()}
+function startTokkun(n){LS.mode='tokkun';LS.num=n;LS.qs=shuffleQs(genQs(n));LS.qIdx=0;beginLearn()}
 function startMaster(){const n=rndN();LS.mode='master';LS.num=n;LS.qs=genQs(n);LS.qIdx=0;beginLearn()}
 function startTA(){LS.mode='ta';LS.taScore=0;const n=rndN();LS.num=n;LS.qs=genQs(n);LS.qIdx=0;beginLearn()}
 function rndN(){return Math.floor(Math.random()*9)+2}
