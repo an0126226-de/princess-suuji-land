@@ -560,7 +560,9 @@ function refreshTk(){
    QUESTION GENERATION (sequential)
 ══════════════════════════ */
 function genQs(total){
-  return Array.from({length:total-1},(_,i)=>({total,preFilled:i+1,toPlace:total-i-1}));
+  const qs=Array.from({length:total-1},(_,i)=>({total,preFilled:i+1,toPlace:total-i-1}));
+  for(let i=qs.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[qs[i],qs[j]]=[qs[j],qs[i]];}
+  return qs;
 }
 
 /* ══════════════════════════
